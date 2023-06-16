@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>esame Michele Simoncelli 23-06-16</title>
+</head>
+<body>
+    <script>
+        function space(spc) {
+           console.log("----------------"); 
+        }
+
+
+
+
+
+
+        
+        /*EX.1 Easy 
+        crea una funzione che prende in ingresso due set di 5 parole e restituisce la differenza tra il 
+        numero di parole aventi lunghezza pari presenti nel primo set e il numero di parole che terminano 
+        in 'a' presenti nel secondo set. 
+        chiamare la funzione con valori a piacere per stampare il risultato.*/
+{
+        let set1 = new Set(["ciao","coleottero","michele", "cane", "savio"])
+        let set2 = new Set(["ciao", "tirana", "tablet", "mouse", "canta"])
+            function diff(set1, set2) {
+                let pari = 0 //creo 2 variabili a 0 che andrò ad aumentare
+                let finalA = 0
+            
+                set1.forEach(el => {    //itero sul primo set con un foreach
+                    if (el.length % 2 == 0) {  
+                        pari++
+                    }          
+                }); 
+                set2.forEach(el =>{ //itero sul secondo set con un foreach
+                    if (el[el.length -1] === 'a') {
+                        finalA++
+                    }
+                })
+                    return pari - finalA
+            }
+        console.log(diff(set1, set2));
+        space()
+}
+        /*EX.2 Easy
+        Scrivi una funzione che prenda in input un array di 3 oggetti rappresentanti persone (nome, 
+        cognome, età) e restituisca un nuovo array contenente le 3 persone ordinate per età crescente 
+        (dal più giovane al più anziano).
+        Chiamare la funzione per produrre l'array, e successivamente iterare su questo array per stampare 
+        le informazioni di tutte e 3 le persone.
+        Ad esempio:
+        dammiPersoneOrdinate ( [ {mario rossi, 32}, {luigi verdi, 25}, {peach pink, 30} ] ) 
+        produce: [{luigi verdi, 25}, {peach pink, 30}, {mario rossi, 32}, ]*/
+{
+        let person = [
+            {name : "michele" , surname : "simoncelli", age : 22},
+            {name : "marco" , surname : "togni", age : 32},
+            {name : "sandro" , surname : "bianchi", age : 42}
+        ]
+
+        
+
+        function findOld(people) {
+            let person1 = person[0]
+            let person2 = person[1]
+            let person3 = person[2] 
+            let oldest = null
+            let youngest = null
+            let medium = null
+            oldest = (person1.age > person2.age) ? (person1.age > person3.age) ? person2 : person3 :
+                        (person2.age > person3.age) ? person2: person3
+            youngest =(person1.age < person2.age) ? (person1.age < person3.age) ?person1 :person3:
+                        (person2.age < person3.age) ? person2: person3
+            medium = people.filter(p => p!=youngest && p!=oldest)[0]
+
+            return[youngest, medium, oldest]
+
+        }
+        findOld(person).forEach(p => console.log(p))
+       
+}
+
+{
+        /* EX.3 Easy
+        Crea un array di 6 stringhe a piacere.
+        Successivamente, crea una mappa che avrà come chiavi le parole contenute nell'array e per valori 
+        le loro lunghezze.
+        Itera sulla mappa per stampare, per ogni coppia al suo interno, la frase:
+        la parola … contiene … caratteri*/
+
+
+        let myArray = ["cane", "gatto", "elefante", "foca", "orso"];
+        let mappa = new Map([
+        ["cane", 4],
+        ["gatto", 5],
+        ["elefante", 8],
+        ["foca", 4],
+        ["orso", 4]
+        ]);
+
+        mappa.forEach((value,key) => { 
+            console.log(`La parola ${key} contiene ${value} caratteri`)    
+        });
+            
+}           
+        
+        space()
+{
+        /*EX.4 Easy
+        Dato il seguente JSON:
+        {
+        "date1": "1990-10-10",
+        "date2": "1980-10-10",
+        "date3": "1970-10-10",
+        "date4": "1960-10-10"
+        }
+        trova la strategia corretta per stampare in output la data più "piccola" e la data più "grande" tra 
+        quelle fornite*/
+
+        const json = `[{
+        "date1": "1990-10-10",
+        "date2": "1980-10-10",
+        "date3": "1970-10-10",
+        "date4": "1960-10-10"
+        }]`
+
+        const persons = JSON.parse(json)
+        let dates = Object.values(persons[0])
+        dates.sort((a, b)=> new Date(a) - new Date(b)) //trovato online
+        dates.forEach(date => console.log(date));    
+        }
+        space()
+{
+        /*EX.5 Easy
+        Data una stringa s a piacere, stampare solo i caratteri univoci, ovvero i caratteri che compaiono 
+        SOLO una volta nella lista.
+        Ad esempio:
+        abbazia -> zi
+        */
+       let s = "mammella"
+       for (let i = 0; i < s.length; i++) { //itero sulla stringa per prendere i caratteri
+            let caratteri = s[i]
+            if (s.indexOf(caratteri)=== s.lastIndexOf(caratteri)) { //trovata online non so se utilizzata in classe
+                console.log(caratteri)
+            } 
+       }
+       
+        space()
+}
+{
+        /*EX.1 Medium
+        crea un array di 6 numeri interi e stampa in console la differenza tra il numero di numeri maggiori 
+        di 10 e il numero di numeri inferiori a 1.
+        Inoltre, se il valore calcolato è pari a 0, stampa tutti i numeri dell'array in senso invertito, 
+        altrimenti, stampa solo il primo e l'ultimo numero dell'array.*/
+
+        let myArray = [15, -10, 7, -20, 25, 30]
+        let numMore10 = 0 //creo 2 variabili a 0 che andrò ad aumentare
+        let numMin0 = 0
+        myArray.forEach(number => { // con un foreach prendo i numeri all'interno dell'array
+            if (number > 10) {
+                numMore10++
+            }
+            else if (number < 0) {
+                numMin0++
+            } 
+           
+        })
+        let diff = (numMore10-numMin0) // qui con un ciclo for inverto l'array di numeri se la diff è 0
+         if (diff == 0){
+                for (let i = myArray.length - 1; i >= 0; i--) {
+                    console.log(myArray[i])
+                }
+        }
+              
+        console.log(`la differenza tra i numeri maggiori di 10 e minori di 0 è ${diff}`);
+              
+        space()
+}
+{
+        /*EX.2 Medium
+        crea una funzione che prende in ingresso due set di 5 numeri e restituisce un oggetto.
+        Questo oggetto avrà le seguenti proprietà:
+        winner -> avrà valore 1 se il primo set ha più proprietà del secondo, altrimenti 2, e 0 se hanno 
+        numero pari di proprietà
+        morePositive: avrà valore 1 se il primo set ha più numeri positivi (> 0) del secondo, altrimenti 2, e 0 
+        se hanno numero pari di proprietà
+        chiama la funzione per stampare proprietà e valori dell'oggetto restituito*/
+
+        let set1 = new Set([1, 2, 3, 4, 5]);
+        let set2 = new Set([6,7, 8, 9, 10]);
+        let winner = 0
+        let morePositive = 0
+            function diffset() {
+                let set1Lenght = set1.size
+                let set2Lenght = set2.size
+                let positiviSet1 = 0
+                let positiviSet2 = 0
+
+            // conto i numeri positivi e negativi in ogni set
+                set1.forEach(number =>{
+                    if (number > 0){
+                    positiviSet1++
+                    }
+                })
+
+                set2.forEach(number =>{
+                    if (number > 0){
+                    positiviSet2++
+                    }
+                })
+
+            // creo le condizioni
+                if (set1Lenght > set2Lenght ) {
+                winner+= 1 
+                }
+                else if (set1Lenght === set2Lenght) {
+                    winner+=0
+                } 
+                else {
+                    winner += 2
+                } 
+           
+                if (positiviSet1 > positiviSet2) {
+                    morePositive += 1
+                }
+                else if(positiviSet1 < positiviSet2){
+                    morePositive += 0
+                }
+                else{
+                    morePositive += 2
+                }
+           
+                return{
+                    winner,
+                    morePositive
+                }
+            }
+        
+        console.log(diffset());
+        space()
+}
+        /*EX.3 Medium
+        crea una funzione che prende in ingresso 2 oggetti che rappresentano due rettangoli, che avranno 
+        questa struttura: {x: valore numerico, y: valore numerico}, e una stringa che può avere i seguenti 
+        valori: 
+        - perimetro
+        - area
+        Se il terzo parametro ha valore 'perimetro' la funzione restituisce la differenza tra il perimetro del 
+        primo rettangolo e il perimetro del secondo rettangolo.
+        Se il terzo parametro ha valore 'area' la funzione restituisce la somma tra l'area del primo 
+        rettangolo e l'area del secondo rettangolo.
+        Ad esempio:
+        opeRettangolo( rect1, rect2, 'area' ) -> risultato
+        opeRettangolo( rect1, rect2, 'perimetro' ) -> risultato
+        Chiama la funzione 2 volte per stampare i valori prodotti, usando valori a piacere.*/
+        
+
+        /*EX.4 Medium
+        Creare una funzione chiamata opeStringa che accetta 2 parametri:
+        - una stringa
+        - una funzione che prende in ingresso una stringa e restituisce una nuova stringa, 
+        trasformata
+        La funzione opeStringa deve restituire la stringa prodotta dalla funzione passata come secondo 
+        parametro.
+        In fase di chiamata di opeStringa, operare nel seguente modo:
+        - chiamare opeStringa con una stringa "javascript" e una funzione che produca la versione 
+        maiuscola
+        - chiamare opeStringa con una stringa "javascript" e una funzione che produca una stringa 
+        contenente solo i caratteri alla posizione dispari
+        - chiamare opeStringa con una stringa "javascript" e una funzione che produca la stringa 
+        invertita
+        Ad esempio:
+        s = javascript
+        opeStringa(s, uc) -> produce JAVASCRIPT
+        opeStringa(s, odd) -> produce aacit
+        opeStringa(s, invert) -> produce tpircsavaj
+        Stampare in output i risultati.*/
+
+        space()
+
+        /*EX.1 Hard
+        Dato il seguente JSON:
+        [{
+        "autore": "mario rossi",
+        "titolo": "jerry potter",
+        "data": "1990-10-10"
+        },
+        {
+        "autore": "luigi verdi",
+        "titolo": "la storia finita",
+        "data": "1960-10-10"
+        },
+        {
+        "autore": "peach rosi",
+        "titolo": "metti la cera",
+        "data": "1970-10-10"
+        },
+        {
+        "autore": "mario rossi",
+        "titolo": "togli la cerca",
+        "data": "1980-10-10"
+        },
+        {
+        "autore": "luigi verdi",
+        "titolo": "mma kid",
+        "data": "1950-10-10"
+        },
+        {
+        "autore": "lucia bianchi",
+        "titolo": "javascript non è java",
+        "data": "1940-10-10"
+        },
+        {
+        "autore": "anna neri",
+        "titolo": "java non è javascript",
+        "data": "1930-10-10"
+        } ]
+        che rappresenta un array di oggetti rappresentanti libri con le proprietà "titolo", "autore" e "data", 
+        scrivi una funzione che prenda in input l'array e restituisca un nuovo array di oggetti contenente 
+        solo i libri scritti da autori diversi, per evitare che ci siano nell'array oggetti con autori identici.
+        L'array contiene quindi 1 libro per autore, il primo trovato nel parsing.
+        Dall'array prodotto dalla funzione stampare il libro più vecchio e il libro più recente*/
+
+        space()
+
+        /*EX.1 DOM
+        Creare 3 campi input:
+        - il primo, stabilisce un colore di sfondo
+        - il secondo, stabilisce un colore di testo
+        - il terzo, stabilisce un contenuto
+        e un pulsante con testo "crea".
+        Al click sul pulsante, viene creato un div 200px x 200px che avrà sfondo, colore del testo e 
+        contenuto dettati dagli input digitati, come sopra descritto.
+        Ogni volta che viene premuto il pulsante "crea" l'elemento creato viene aggiunto al precedente.*/
+
+        space()
+    </script>
+</body>
+</html>
